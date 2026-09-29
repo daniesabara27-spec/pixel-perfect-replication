@@ -14,15 +14,7 @@ import {
   Download,
   Warehouse,
   Settings,
-  type LucideIcon,
 } from "lucide-react";
-
-export type NavItem = {
-  label: string;
-  to: string;
-  icon: LucideIcon;
-  children?: { label: string; gudang: string }[];
-};
 
 export const GUDANG = [
   { label: "KCC", gudang: "KCC" },
@@ -30,9 +22,9 @@ export const GUDANG = [
   { label: "WX 2", gudang: "WX2" },
   { label: "WX 3", gudang: "WX3" },
   { label: "WX Temp", gudang: "WXTEMP" },
-];
+] as const;
 
-export const NAV_ITEMS: NavItem[] = [
+export const NAV_ITEMS = [
   { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
   { label: "Pencarian Barang", to: "/pencarian-barang", icon: Search },
   { label: "Input Packing", to: "/packing", icon: PackageCheck },
@@ -46,6 +38,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Nearmiss Accident", to: "/nearmiss", icon: TriangleAlert },
   { label: "Instruksi Kerja", to: "/instruksi-kerja", icon: BookOpen },
   { label: "Tarik Data", to: "/tarik-data", icon: Download },
-  { label: "Audit Rak", to: "/audit-rak", icon: Warehouse, children: GUDANG },
   { label: "Pengaturan", to: "/pengaturan", icon: Settings },
-];
+] as const;
+
+export const AUDIT_RAK = { label: "Audit Rak", icon: Warehouse } as const;
