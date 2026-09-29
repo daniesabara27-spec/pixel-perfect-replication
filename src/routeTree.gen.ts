@@ -10,33 +10,232 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedInboundRouteImport } from './routes/_authenticated/inbound'
+import { Route as AuthenticatedInspeksiOutdoorRouteImport } from './routes/_authenticated/inspeksi-outdoor'
+import { Route as AuthenticatedInspeksiPengirimanRouteImport } from './routes/_authenticated/inspeksi-pengiriman'
+import { Route as AuthenticatedInstruksiKerjaRouteImport } from './routes/_authenticated/instruksi-kerja'
+import { Route as AuthenticatedLaporanShiftRouteImport } from './routes/_authenticated/laporan-shift'
+import { Route as AuthenticatedMoistureContainerRouteImport } from './routes/_authenticated/moisture-container'
+import { Route as AuthenticatedNearmissRouteImport } from './routes/_authenticated/nearmiss'
+import { Route as AuthenticatedOutboundRouteImport } from './routes/_authenticated/outbound'
+import { Route as AuthenticatedPackingRouteImport } from './routes/_authenticated/packing'
+import { Route as AuthenticatedPencarianBarangRouteImport } from './routes/_authenticated/pencarian-barang'
+import { Route as AuthenticatedPengaturanRouteImport } from './routes/_authenticated/pengaturan'
+import { Route as AuthenticatedTarikDataRouteImport } from './routes/_authenticated/tarik-data'
+import { Route as AuthenticatedTransferRouteImport } from './routes/_authenticated/transfer'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInboundRoute = AuthenticatedInboundRouteImport.update({
+  id: '/inbound',
+  path: '/inbound',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInspeksiOutdoorRoute =
+  AuthenticatedInspeksiOutdoorRouteImport.update({
+    id: '/inspeksi-outdoor',
+    path: '/inspeksi-outdoor',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInspeksiPengirimanRoute =
+  AuthenticatedInspeksiPengirimanRouteImport.update({
+    id: '/inspeksi-pengiriman',
+    path: '/inspeksi-pengiriman',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInstruksiKerjaRoute =
+  AuthenticatedInstruksiKerjaRouteImport.update({
+    id: '/instruksi-kerja',
+    path: '/instruksi-kerja',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLaporanShiftRoute =
+  AuthenticatedLaporanShiftRouteImport.update({
+    id: '/laporan-shift',
+    path: '/laporan-shift',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMoistureContainerRoute =
+  AuthenticatedMoistureContainerRouteImport.update({
+    id: '/moisture-container',
+    path: '/moisture-container',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedNearmissRoute = AuthenticatedNearmissRouteImport.update({
+  id: '/nearmiss',
+  path: '/nearmiss',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOutboundRoute = AuthenticatedOutboundRouteImport.update({
+  id: '/outbound',
+  path: '/outbound',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPackingRoute = AuthenticatedPackingRouteImport.update({
+  id: '/packing',
+  path: '/packing',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPencarianBarangRoute =
+  AuthenticatedPencarianBarangRouteImport.update({
+    id: '/pencarian-barang',
+    path: '/pencarian-barang',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPengaturanRoute = AuthenticatedPengaturanRouteImport.update({
+  id: '/pengaturan',
+  path: '/pengaturan',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTarikDataRoute = AuthenticatedTarikDataRouteImport.update({
+  id: '/tarik-data',
+  path: '/tarik-data',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTransferRoute = AuthenticatedTransferRouteImport.update({
+  id: '/transfer',
+  path: '/transfer',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/inbound': typeof AuthenticatedInboundRoute
+  '/inspeksi-outdoor': typeof AuthenticatedInspeksiOutdoorRoute
+  '/inspeksi-pengiriman': typeof AuthenticatedInspeksiPengirimanRoute
+  '/instruksi-kerja': typeof AuthenticatedInstruksiKerjaRoute
+  '/laporan-shift': typeof AuthenticatedLaporanShiftRoute
+  '/moisture-container': typeof AuthenticatedMoistureContainerRoute
+  '/nearmiss': typeof AuthenticatedNearmissRoute
+  '/outbound': typeof AuthenticatedOutboundRoute
+  '/packing': typeof AuthenticatedPackingRoute
+  '/pencarian-barang': typeof AuthenticatedPencarianBarangRoute
+  '/pengaturan': typeof AuthenticatedPengaturanRoute
+  '/tarik-data': typeof AuthenticatedTarikDataRoute
+  '/transfer': typeof AuthenticatedTransferRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/inbound': typeof AuthenticatedInboundRoute
+  '/inspeksi-outdoor': typeof AuthenticatedInspeksiOutdoorRoute
+  '/inspeksi-pengiriman': typeof AuthenticatedInspeksiPengirimanRoute
+  '/instruksi-kerja': typeof AuthenticatedInstruksiKerjaRoute
+  '/laporan-shift': typeof AuthenticatedLaporanShiftRoute
+  '/moisture-container': typeof AuthenticatedMoistureContainerRoute
+  '/nearmiss': typeof AuthenticatedNearmissRoute
+  '/outbound': typeof AuthenticatedOutboundRoute
+  '/packing': typeof AuthenticatedPackingRoute
+  '/pencarian-barang': typeof AuthenticatedPencarianBarangRoute
+  '/pengaturan': typeof AuthenticatedPengaturanRoute
+  '/tarik-data': typeof AuthenticatedTarikDataRoute
+  '/transfer': typeof AuthenticatedTransferRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/inbound': typeof AuthenticatedInboundRoute
+  '/_authenticated/inspeksi-outdoor': typeof AuthenticatedInspeksiOutdoorRoute
+  '/_authenticated/inspeksi-pengiriman': typeof AuthenticatedInspeksiPengirimanRoute
+  '/_authenticated/instruksi-kerja': typeof AuthenticatedInstruksiKerjaRoute
+  '/_authenticated/laporan-shift': typeof AuthenticatedLaporanShiftRoute
+  '/_authenticated/moisture-container': typeof AuthenticatedMoistureContainerRoute
+  '/_authenticated/nearmiss': typeof AuthenticatedNearmissRoute
+  '/_authenticated/outbound': typeof AuthenticatedOutboundRoute
+  '/_authenticated/packing': typeof AuthenticatedPackingRoute
+  '/_authenticated/pencarian-barang': typeof AuthenticatedPencarianBarangRoute
+  '/_authenticated/pengaturan': typeof AuthenticatedPengaturanRoute
+  '/_authenticated/tarik-data': typeof AuthenticatedTarikDataRoute
+  '/_authenticated/transfer': typeof AuthenticatedTransferRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/inbound'
+    | '/inspeksi-outdoor'
+    | '/inspeksi-pengiriman'
+    | '/instruksi-kerja'
+    | '/laporan-shift'
+    | '/moisture-container'
+    | '/nearmiss'
+    | '/outbound'
+    | '/packing'
+    | '/pencarian-barang'
+    | '/pengaturan'
+    | '/tarik-data'
+    | '/transfer'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/inbound'
+    | '/inspeksi-outdoor'
+    | '/inspeksi-pengiriman'
+    | '/instruksi-kerja'
+    | '/laporan-shift'
+    | '/moisture-container'
+    | '/nearmiss'
+    | '/outbound'
+    | '/packing'
+    | '/pencarian-barang'
+    | '/pengaturan'
+    | '/tarik-data'
+    | '/transfer'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/inbound'
+    | '/_authenticated/inspeksi-outdoor'
+    | '/_authenticated/inspeksi-pengiriman'
+    | '/_authenticated/instruksi-kerja'
+    | '/_authenticated/laporan-shift'
+    | '/_authenticated/moisture-container'
+    | '/_authenticated/nearmiss'
+    | '/_authenticated/outbound'
+    | '/_authenticated/packing'
+    | '/_authenticated/pencarian-barang'
+    | '/_authenticated/pengaturan'
+    | '/_authenticated/tarik-data'
+    | '/_authenticated/transfer'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +247,162 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inbound': {
+      id: '/_authenticated/inbound'
+      path: '/inbound'
+      fullPath: '/inbound'
+      preLoaderRoute: typeof AuthenticatedInboundRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inspeksi-outdoor': {
+      id: '/_authenticated/inspeksi-outdoor'
+      path: '/inspeksi-outdoor'
+      fullPath: '/inspeksi-outdoor'
+      preLoaderRoute: typeof AuthenticatedInspeksiOutdoorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inspeksi-pengiriman': {
+      id: '/_authenticated/inspeksi-pengiriman'
+      path: '/inspeksi-pengiriman'
+      fullPath: '/inspeksi-pengiriman'
+      preLoaderRoute: typeof AuthenticatedInspeksiPengirimanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/instruksi-kerja': {
+      id: '/_authenticated/instruksi-kerja'
+      path: '/instruksi-kerja'
+      fullPath: '/instruksi-kerja'
+      preLoaderRoute: typeof AuthenticatedInstruksiKerjaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/laporan-shift': {
+      id: '/_authenticated/laporan-shift'
+      path: '/laporan-shift'
+      fullPath: '/laporan-shift'
+      preLoaderRoute: typeof AuthenticatedLaporanShiftRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/moisture-container': {
+      id: '/_authenticated/moisture-container'
+      path: '/moisture-container'
+      fullPath: '/moisture-container'
+      preLoaderRoute: typeof AuthenticatedMoistureContainerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/nearmiss': {
+      id: '/_authenticated/nearmiss'
+      path: '/nearmiss'
+      fullPath: '/nearmiss'
+      preLoaderRoute: typeof AuthenticatedNearmissRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/outbound': {
+      id: '/_authenticated/outbound'
+      path: '/outbound'
+      fullPath: '/outbound'
+      preLoaderRoute: typeof AuthenticatedOutboundRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/packing': {
+      id: '/_authenticated/packing'
+      path: '/packing'
+      fullPath: '/packing'
+      preLoaderRoute: typeof AuthenticatedPackingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pencarian-barang': {
+      id: '/_authenticated/pencarian-barang'
+      path: '/pencarian-barang'
+      fullPath: '/pencarian-barang'
+      preLoaderRoute: typeof AuthenticatedPencarianBarangRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pengaturan': {
+      id: '/_authenticated/pengaturan'
+      path: '/pengaturan'
+      fullPath: '/pengaturan'
+      preLoaderRoute: typeof AuthenticatedPengaturanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarik-data': {
+      id: '/_authenticated/tarik-data'
+      path: '/tarik-data'
+      fullPath: '/tarik-data'
+      preLoaderRoute: typeof AuthenticatedTarikDataRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/transfer': {
+      id: '/_authenticated/transfer'
+      path: '/transfer'
+      fullPath: '/transfer'
+      preLoaderRoute: typeof AuthenticatedTransferRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedInboundRoute: typeof AuthenticatedInboundRoute
+  AuthenticatedInspeksiOutdoorRoute: typeof AuthenticatedInspeksiOutdoorRoute
+  AuthenticatedInspeksiPengirimanRoute: typeof AuthenticatedInspeksiPengirimanRoute
+  AuthenticatedInstruksiKerjaRoute: typeof AuthenticatedInstruksiKerjaRoute
+  AuthenticatedLaporanShiftRoute: typeof AuthenticatedLaporanShiftRoute
+  AuthenticatedMoistureContainerRoute: typeof AuthenticatedMoistureContainerRoute
+  AuthenticatedNearmissRoute: typeof AuthenticatedNearmissRoute
+  AuthenticatedOutboundRoute: typeof AuthenticatedOutboundRoute
+  AuthenticatedPackingRoute: typeof AuthenticatedPackingRoute
+  AuthenticatedPencarianBarangRoute: typeof AuthenticatedPencarianBarangRoute
+  AuthenticatedPengaturanRoute: typeof AuthenticatedPengaturanRoute
+  AuthenticatedTarikDataRoute: typeof AuthenticatedTarikDataRoute
+  AuthenticatedTransferRoute: typeof AuthenticatedTransferRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedInboundRoute: AuthenticatedInboundRoute,
+  AuthenticatedInspeksiOutdoorRoute: AuthenticatedInspeksiOutdoorRoute,
+  AuthenticatedInspeksiPengirimanRoute: AuthenticatedInspeksiPengirimanRoute,
+  AuthenticatedInstruksiKerjaRoute: AuthenticatedInstruksiKerjaRoute,
+  AuthenticatedLaporanShiftRoute: AuthenticatedLaporanShiftRoute,
+  AuthenticatedMoistureContainerRoute: AuthenticatedMoistureContainerRoute,
+  AuthenticatedNearmissRoute: AuthenticatedNearmissRoute,
+  AuthenticatedOutboundRoute: AuthenticatedOutboundRoute,
+  AuthenticatedPackingRoute: AuthenticatedPackingRoute,
+  AuthenticatedPencarianBarangRoute: AuthenticatedPencarianBarangRoute,
+  AuthenticatedPengaturanRoute: AuthenticatedPengaturanRoute,
+  AuthenticatedTarikDataRoute: AuthenticatedTarikDataRoute,
+  AuthenticatedTransferRoute: AuthenticatedTransferRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
