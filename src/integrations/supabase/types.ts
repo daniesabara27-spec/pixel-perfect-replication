@@ -560,6 +560,36 @@ export type Database = {
       }
     }
     Functions: {
+      _agg_by: {
+        Args: {
+          _col: string
+          _dari: string
+          _lim?: number
+          _sampai: string
+          _tbl: string
+        }
+        Returns: Json
+      }
+      cari_barang: {
+        Args: { _q: string; _warehouse?: string }
+        Returns: {
+          barcode: string
+          keeping_no: string
+          product_code: string
+          product_name: string
+          stock: number
+          thickness: string
+          warehouse: string
+        }[]
+      }
+      dashboard_detail: {
+        Args: { _dari: string; _jenis: string; _sampai: string }
+        Returns: Json
+      }
+      dashboard_ringkasan: {
+        Args: { _dari: string; _sampai: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -568,6 +598,21 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      rak_list: {
+        Args: { _warehouse: string }
+        Returns: {
+          aktual: number
+          erp: number
+          id: number
+          keterangan: string
+          no_rak: string
+          updated_at: string
+        }[]
+      }
+      set_rak_aktual: {
+        Args: { _aktual: number; _id: number; _keterangan: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "supervisor" | "operator"
