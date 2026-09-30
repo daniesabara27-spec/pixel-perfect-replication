@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Menu, LogOut, ChevronDown, Boxes } from "lucide-react";
+import { Menu, LogOut, ChevronDown, Boxes, Settings as SettingsIcon } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -86,7 +86,7 @@ function NavContent({ onNavigate }: { onNavigate?: () => void }) {
         onClick={onNavigate}
         className={linkClass(pathname === "/pengaturan")}
       >
-        <NAV_ITEMS[13].icon className="size-[18px] shrink-0" />
+        <SettingsIcon className="size-[18px] shrink-0" />
         <span className="min-w-0 truncate">Pengaturan</span>
       </Link>
     </nav>

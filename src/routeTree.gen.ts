@@ -26,6 +26,7 @@ import { Route as AuthenticatedPencarianBarangRouteImport } from './routes/_auth
 import { Route as AuthenticatedPengaturanRouteImport } from './routes/_authenticated/pengaturan'
 import { Route as AuthenticatedTarikDataRouteImport } from './routes/_authenticated/tarik-data'
 import { Route as AuthenticatedTransferRouteImport } from './routes/_authenticated/transfer'
+import { Route as AuthenticatedAuditRakGudangRouteImport } from './routes/_authenticated/audit-rak.$gudang'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -117,6 +118,12 @@ const AuthenticatedTransferRoute = AuthenticatedTransferRouteImport.update({
   path: '/transfer',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAuditRakGudangRoute =
+  AuthenticatedAuditRakGudangRouteImport.update({
+    id: '/audit-rak/$gudang',
+    path: '/audit-rak/$gudang',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/pengaturan': typeof AuthenticatedPengaturanRoute
   '/tarik-data': typeof AuthenticatedTarikDataRoute
   '/transfer': typeof AuthenticatedTransferRoute
+  '/audit-rak/$gudang': typeof AuthenticatedAuditRakGudangRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -153,6 +161,7 @@ export interface FileRoutesByTo {
   '/pengaturan': typeof AuthenticatedPengaturanRoute
   '/tarik-data': typeof AuthenticatedTarikDataRoute
   '/transfer': typeof AuthenticatedTransferRoute
+  '/audit-rak/$gudang': typeof AuthenticatedAuditRakGudangRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -173,6 +182,7 @@ export interface FileRoutesById {
   '/_authenticated/pengaturan': typeof AuthenticatedPengaturanRoute
   '/_authenticated/tarik-data': typeof AuthenticatedTarikDataRoute
   '/_authenticated/transfer': typeof AuthenticatedTransferRoute
+  '/_authenticated/audit-rak/$gudang': typeof AuthenticatedAuditRakGudangRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/pengaturan'
     | '/tarik-data'
     | '/transfer'
+    | '/audit-rak/$gudang'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/pengaturan'
     | '/tarik-data'
     | '/transfer'
+    | '/audit-rak/$gudang'
   id:
     | '__root__'
     | '/'
@@ -230,6 +242,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pengaturan'
     | '/_authenticated/tarik-data'
     | '/_authenticated/transfer'
+    | '/_authenticated/audit-rak/$gudang'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -359,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTransferRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/audit-rak/$gudang': {
+      id: '/_authenticated/audit-rak/$gudang'
+      path: '/audit-rak/$gudang'
+      fullPath: '/audit-rak/$gudang'
+      preLoaderRoute: typeof AuthenticatedAuditRakGudangRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -377,6 +397,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPengaturanRoute: typeof AuthenticatedPengaturanRoute
   AuthenticatedTarikDataRoute: typeof AuthenticatedTarikDataRoute
   AuthenticatedTransferRoute: typeof AuthenticatedTransferRoute
+  AuthenticatedAuditRakGudangRoute: typeof AuthenticatedAuditRakGudangRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -394,6 +415,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPengaturanRoute: AuthenticatedPengaturanRoute,
   AuthenticatedTarikDataRoute: AuthenticatedTarikDataRoute,
   AuthenticatedTransferRoute: AuthenticatedTransferRoute,
+  AuthenticatedAuditRakGudangRoute: AuthenticatedAuditRakGudangRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
