@@ -53,12 +53,12 @@ function Page() {
     try {
       const rows = (await bacaFile(file))
         .map((r) => ({
-          barcode: teks(r.barcode),
-          product_code: teks(r.productcode),
-          product_name: teks(r.productname),
-          thickness: teks(r.thickness),
-          stock: angka(r.stock),
-          keeping_no: teks(r.keepingno),
+          barcode: teks(r["barcode"]),
+          product_code: teks(r["productcode"]),
+          product_name: teks(r["productname"]),
+          thickness: teks(r["thickness"]),
+          stock: angka(r["stock"]),
+          keeping_no: teks(r["keepingno"]),
         }))
         .filter((r): r is typeof r & { barcode: string } => !!r.barcode);
       if (!rows.length) throw new Error("Kolom 'barcode' tidak ditemukan atau file kosong.");
@@ -72,7 +72,7 @@ function Page() {
   async function imporRak(file: File) {
     setBusy("rak");
     try {
-      const nos = [...new Set((await bacaFile(file)).map((r) => teks(r.norak ?? r.rak ?? r.keepingno)).filter(Boolean) as string[])];
+      const nos = [...new Set((await bacaFile(file)).map((r) => teks(r["norak"] ?? r["rak"] ?? r["keepingno"])).filter(Boolean) as string[])];
       if (!nos.length) throw new Error("Kolom 'no_rak' tidak ditemukan atau file kosong.");
       await kirim(nos.map((no_rak) => ({ warehouse: gudang, no_rak })), (c) =>
         supabase.from("rak_audit").upsert(c, { onConflict: "warehouse,no_rak", ignoreDuplicates: true }));
