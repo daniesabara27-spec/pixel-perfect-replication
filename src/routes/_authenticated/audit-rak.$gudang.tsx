@@ -109,7 +109,7 @@ function Page() {
   );
 }
 
-function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
+function Stat({ label, value, sub }: { label: string; value: string; sub?: string | undefined }) {
   return (
     <div className="glass p-3 sm:p-4">
       <p className="text-xs font-semibold text-muted-foreground">{label}</p>

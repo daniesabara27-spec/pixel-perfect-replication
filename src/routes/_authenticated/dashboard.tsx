@@ -111,7 +111,7 @@ function Loading() {
   );
 }
 
-function Kpi({ label, value, icon: Icon, sub }: { label: string; value: string; icon: typeof Boxes; sub?: string }) {
+function Kpi({ label, value, icon: Icon, sub }: { label: string; value: string; icon: typeof Boxes; sub?: string | undefined }) {
   return (
     <div className="glass animate-in fade-in p-4 duration-200">
       <div className="flex items-center justify-between gap-2">
