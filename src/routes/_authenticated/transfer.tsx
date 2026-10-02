@@ -27,7 +27,7 @@ function Page() {
   const [jenis, setJenis] = useState<string>(JENIS[0]);
   const [kontainer, setKontainer] = useState("");
   const [tujuan, setTujuan] = useState("");
-  const [warehouse, setWarehouse] = useState<string>(WAREHOUSE[0]);
+  const [warehouse, setWarehouse] = useState<string>(WAREHOUSE[0] ?? "KCC");
   const [sj, setSj] = useState("");
   const [rows, setRows] = useState([barisBaru()]);
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ function Page() {
       isi.map((r) => ({ jenis, kontainer: kontainer.trim(), tujuan: tujuan.trim(), warehouse, no_surat_jalan: sj.trim(), shift, pic: pic.trim(), barcode: r.barcode.trim(), description: r.description, thickness: r.thickness, isi: toNum(r.isi) })),
     );
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`${isi.length} barcode tersimpan`);
     setKontainer(""); setTujuan(""); setSj(""); setRows([barisBaru()]);
     qc.invalidateQueries({ queryKey: ["riwayat", "transfer"] });

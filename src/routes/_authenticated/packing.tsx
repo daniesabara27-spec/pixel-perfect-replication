@@ -32,7 +32,7 @@ function Page() {
       isi.map((r) => ({ no_rak: noRak.trim(), pic: pic.trim(), shift, barcode: r.barcode.trim(), description: r.description, thickness: r.thickness, isi: toNum(r.isi) })),
     );
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`${isi.length} barcode tersimpan`);
     setNoRak("");
     setRows([barisBaru()]);
