@@ -80,7 +80,7 @@ export function useMasterMap() {
   });
 }
 
-export type BarisBarcode = { key: number; barcode: string; description: string; thickness: string; isi: string; status?: "ok" | "tidak" | "cari" };
+export type BarisBarcode = { key: number; barcode: string; description: string; thickness: string; isi: string; status?: "ok" | "tidak" | "cari" | undefined };
 
 let seq = 1;
 export const barisBaru = (): BarisBarcode => ({ key: seq++, barcode: "", description: "", thickness: "", isi: "" });
@@ -183,8 +183,8 @@ export function Riwayat({ table, cols }: { table: "packing" | "inbound" | "outbo
             </thead>
             <tbody>
               {q.data.map((r) => (
-                <tr key={String(r.id)} className="border-t border-white/60">
-                  <td className="whitespace-nowrap py-2 pr-3">{fmt.format(new Date(String(r.created_at)))}</td>
+                <tr key={String(r["id"])} className="border-t border-white/60">
+                  <td className="whitespace-nowrap py-2 pr-3">{fmt.format(new Date(String(r["created_at"])))}</td>
                   {cols.map((c) => <td key={c.key} className="py-2 pr-3">{r[c.key] == null ? "-" : String(r[c.key])}</td>)}
                 </tr>
               ))}

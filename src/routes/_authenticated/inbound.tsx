@@ -46,8 +46,8 @@ function Page() {
     setPilih(new Set());
     const no = sj.trim();
     const { data, error } = await supabase.from("transfer").select("id, barcode, description, thickness, isi").ilike("no_surat_jalan", no);
-    if (error) { setCari(false); return toast.error(error.message); }
-    if (!data.length) { setCari(false); return toast.error("No Surat Jalan tidak ditemukan pada Data Transfer"); }
+    if (error) { setCari(false); { toast.error(error.message); return; } }
+    if (!data.length) { setCari(false); { toast.error("No Surat Jalan tidak ditemukan pada Data Transfer"); return; } }
     const { data: masuk } = await supabase.from("inbound").select("barcode").ilike("no_surat_jalan", no);
     const sudah = new Set((masuk ?? []).map((m) => (m.barcode ?? "").toLowerCase()));
     const list = data.map((d) => ({ ...d, sudah: sudah.has((d.barcode ?? "").toLowerCase()) }));
@@ -69,7 +69,7 @@ function Page() {
       payload.map((p) => ({ ...p, jenis_penerimaan: tab === "Dari KCC" ? "KCC" : "WANXINDA", no_rak: noRak.trim(), no_surat_jalan: sj.trim(), penempatan_gudang: penempatan, pic: pic.trim(), shift })),
     );
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`${payload.length} barcode tersimpan`);
     setNoRak(""); setSj(""); setRows([barisBaru()]); setItems(null); setPilih(new Set());
     qc.invalidateQueries({ queryKey: ["riwayat", "inbound"] });
