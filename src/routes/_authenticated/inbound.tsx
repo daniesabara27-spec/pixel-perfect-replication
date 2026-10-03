@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Loader2, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { BarcodeList, Field, FormPage, Riwayat, SelectInput, ShiftSelect, SubmitButton, barisBaru, barisTerisi, inputClass, toNum, usePicShift } from "@/components/form-kit";
+import { BarcodeList, Field, FormPage, Riwayat, SelectInput, ShiftSelect, SubmitButton, barisBaru, barisTerisi, barisValid, inputClass, toNum, usePicShift } from "@/components/form-kit";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/inbound")({
@@ -64,6 +64,7 @@ function Page() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (sjKosong || !payload.length) return;
+    if (mode === "manual" && !barisValid(rows)) { toast.error("Isi wajib berupa angka nol atau lebih."); return; }
     setLoading(true);
     const { error } = await supabase.from("inbound").insert(
       payload.map((p) => ({ ...p, jenis_penerimaan: tab === "Dari KCC" ? "KCC" : "WANXINDA", no_rak: noRak.trim(), no_surat_jalan: sj.trim(), penempatan_gudang: penempatan, pic: pic.trim(), shift })),
@@ -123,7 +124,7 @@ function Page() {
           </div>
         )}
 
-        <SubmitButton loading={loading} disabled={sjKosong || !payload.length} />
+        <SubmitButton loading={loading} disabled={sjKosong || !payload.length || (mode === "manual" && !barisValid(rows))} />
       </form>
       <Riwayat table="inbound" cols={[{ key: "jenis_penerimaan", label: "Dari" }, { key: "no_rak", label: "No Rak" }, { key: "no_surat_jalan", label: "Surat Jalan" }, { key: "penempatan_gudang", label: "Gudang" }, { key: "barcode", label: "Barcode" }, { key: "isi", label: "Isi" }]} />
     </FormPage>

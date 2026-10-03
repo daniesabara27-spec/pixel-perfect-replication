@@ -148,7 +148,7 @@ function Ringkasan({ d }: { d: any }) {
       </div>
       <Panel title="Tren Packing vs Shipment">
         <div className="h-64">
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
             <LineChart data={d.tren}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--glass-border)" />
               <XAxis dataKey="tanggal" tickFormatter={tglPendek} tick={axis} />
@@ -163,7 +163,7 @@ function Ringkasan({ d }: { d: any }) {
       </Panel>
       <Panel title="Akurasi Stock per Gudang (%)">
         <div className="h-64">
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
             <BarChart data={gudang}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--glass-border)" />
               <XAxis dataKey="gudang" tick={axis} />
@@ -191,7 +191,7 @@ function Detail({ d }: { d: any }) {
       </div>
       <Panel title="Tren Harian (Qty)">
         <div className="h-64">
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
             <LineChart data={d.tren}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--glass-border)" />
               <XAxis dataKey="tanggal" tickFormatter={tglPendek} tick={axis} />
