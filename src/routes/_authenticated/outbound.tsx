@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { BarcodeList, Field, FormPage, Riwayat, SelectInput, ShiftSelect, SubmitButton, barisBaru, barisTerisi, inputClass, toNum, usePicShift } from "@/components/form-kit";
+import { BarcodeList, Field, FormPage, Riwayat, SelectInput, ShiftSelect, SubmitButton, barisBaru, barisTerisi, barisValid, inputClass, toNum, usePicShift } from "@/components/form-kit";
 
 export const Route = createFileRoute("/_authenticated/outbound")({
   head: () => ({
@@ -33,7 +33,7 @@ function Page() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (sjKosong) return;
+    if (sjKosong || !barisValid(rows)) { if (!sjKosong) toast.error("Isi wajib berupa angka nol atau lebih."); return; }
     setLoading(true);
     const { error } = await supabase.from("outbound").insert(
       isi.map((r) => ({ jenis: "SHIPMENT", kontainer: kontainer.trim(), tujuan, no_surat_jalan: sj.trim(), pic: pic.trim(), shift, team: team.trim(), barcode: r.barcode.trim(), description: r.description, thickness: r.thickness, isi: toNum(r.isi) })),
@@ -57,7 +57,7 @@ function Page() {
         <Field label="Shift"><ShiftSelect value={shift} onChange={setShift} /></Field>
         <Field label="Team"><input value={team} onChange={(e) => setTeam(e.target.value)} className={inputClass} /></Field>
         <BarcodeList rows={rows} setRows={setRows} />
-        <SubmitButton loading={loading} disabled={sjKosong || !isi.length} />
+        <SubmitButton loading={loading} disabled={sjKosong || !barisValid(rows)} />
       </form>
       <Riwayat table="outbound" cols={[{ key: "kontainer", label: "Kontainer" }, { key: "tujuan", label: "Tujuan" }, { key: "no_surat_jalan", label: "Surat Jalan" }, { key: "barcode", label: "Barcode" }, { key: "isi", label: "Isi" }, { key: "pic", label: "PIC" }]} />
     </FormPage>

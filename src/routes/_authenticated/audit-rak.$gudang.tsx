@@ -123,16 +123,20 @@ function Baris({ rak, gudang }: { rak: Rak; gudang: string }) {
   const qc = useQueryClient();
   const [aktual, setAktual] = useState(rak.aktual == null ? "" : String(rak.aktual));
   const [ket, setKet] = useState(rak.keterangan ?? "");
-  const [status, setStatus] = useState<"idle" | "saving" | "saved">("idle");
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const first = useRef(true);
 
   useEffect(() => {
     if (first.current) { first.current = false; return; }
+    if (aktual.trim() !== "" && (!Number.isFinite(Number(aktual)) || Number(aktual) < 0)) {
+      setStatus("error");
+      return;
+    }
     const t = setTimeout(async () => {
       setStatus("saving");
       const nilai = aktual.trim() === "" ? null : Number(aktual);
       const { error } = await supabase.rpc("set_rak_aktual", { _id: rak.id, _aktual: nilai as number, _keterangan: ket });
-      if (error) { toast.error(`Gagal simpan ${rak.no_rak}`); setStatus("idle"); return; }
+      if (error) { toast.error(`Gagal simpan ${rak.no_rak}`); setStatus("error"); return; }
       setStatus("saved");
       qc.setQueryData<Rak[]>(["rak", gudang], (old) => old?.map((x) => (x.id === rak.id ? { ...x, aktual: nilai, keterangan: ket } : x)));
     }, 700);
@@ -165,8 +169,8 @@ function Baris({ rak, gudang }: { rak: Rak; gudang: string }) {
         aria-label={`Keterangan ${rak.no_rak}`}
         className="row-start-2 min-h-11 w-full rounded-xl border border-white/70 bg-white/70 px-3 text-sm outline-none focus:ring-2 focus:ring-primary sm:row-start-auto"
       />
-      <span className="hidden sm:block">
-        {status === "saving" ? <Loader2 className="size-4 animate-spin text-muted-foreground" /> : status === "saved" ? <Check className="size-4 text-success" /> : null}
+      <span aria-live="polite" className="text-xs sm:block">
+        {status === "saving" ? <Loader2 className="size-4 animate-spin text-muted-foreground" /> : status === "saved" ? <Check className="size-4 text-success" /> : status === "error" ? <span className="font-semibold text-destructive">!</span> : null}
       </span>
     </div>
   );

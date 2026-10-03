@@ -97,7 +97,12 @@ export function BarcodeList({ rows, setRows }: { rows: BarisBarcode[]; setRows: 
     let m = master.data?.get(code.toLowerCase());
     if (!m) {
       update(key, { status: "cari" });
-      const { data } = await supabase.from("master_data").select("barcode, product_name, thickness, stock").ilike("barcode", code).maybeSingle();
+      const { data, error } = await supabase.from("master_data").select("barcode, product_name, thickness, stock").ilike("barcode", code).maybeSingle();
+      if (error) {
+        update(key, { status: "tidak" });
+        toast.error("Pencarian barcode gagal. Coba lagi.");
+        return;
+      }
       m = data ?? undefined;
     }
     if (m) update(key, { barcode: m.barcode, description: m.product_name ?? "", thickness: m.thickness ?? "", isi: m.stock != null ? String(m.stock) : "", status: "ok" });
@@ -133,7 +138,7 @@ export function BarcodeList({ rows, setRows }: { rows: BarisBarcode[]; setRows: 
           <div className="grid grid-cols-1 gap-2 pl-8 sm:grid-cols-[1fr_120px_100px]">
             <input value={r.description} onChange={(e) => update(r.key, { description: e.target.value })} placeholder="Description" className={inputClass} />
             <input value={r.thickness} onChange={(e) => update(r.key, { thickness: e.target.value })} placeholder="Thickness" className={inputClass} />
-            <input value={r.isi} inputMode="decimal" onChange={(e) => update(r.key, { isi: e.target.value })} placeholder="Isi" className={inputClass} />
+            <input value={r.isi} inputMode="decimal" type="number" min="0" step="any" onChange={(e) => update(r.key, { isi: e.target.value })} placeholder="Isi" className={inputClass} />
           </div>
         </div>
       ))}
@@ -151,6 +156,9 @@ export function BarcodeList({ rows, setRows }: { rows: BarisBarcode[]; setRows: 
 }
 
 export const barisTerisi = (rows: BarisBarcode[]) => rows.filter((r) => r.barcode.trim());
+export const barisValid = (rows: BarisBarcode[]) =>
+  barisTerisi(rows).length > 0 &&
+  barisTerisi(rows).every((r) => r.isi.trim() !== "" && Number.isFinite(Number(r.isi)) && Number(r.isi) >= 0);
 export const toNum = (v: string) => (v.trim() === "" || isNaN(Number(v)) ? null : Number(v));
 
 export function SubmitButton({ disabled, loading, children = "Simpan" }: { disabled?: boolean; loading?: boolean; children?: ReactNode }) {
@@ -175,7 +183,7 @@ export function Riwayat({ table, cols }: { table: "packing" | "inbound" | "outbo
   return (
     <section className="glass mt-6 p-4 sm:p-5">
       <h2 className="mb-3 text-lg font-bold">Riwayat 20 entri terakhir</h2>
-      {q.isLoading ? <p className="text-sm text-muted-foreground">Memuat…</p> : !q.data?.length ? <p className="text-sm text-muted-foreground">Belum ada data.</p> : (
+      {q.isLoading ? <p className="text-sm text-muted-foreground">Memuat…</p> : q.error ? <p className="text-sm text-destructive">Riwayat gagal dimuat. Coba muat ulang halaman.</p> : !q.data?.length ? <p className="text-sm text-muted-foreground">Belum ada data.</p> : (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[560px] text-left text-sm">
             <thead className="text-xs uppercase text-muted-foreground">

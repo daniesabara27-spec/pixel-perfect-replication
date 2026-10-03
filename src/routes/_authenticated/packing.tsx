@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { BarcodeList, Field, FormPage, Riwayat, ShiftSelect, SubmitButton, barisBaru, barisTerisi, inputClass, toNum, usePicShift } from "@/components/form-kit";
+import { BarcodeList, Field, FormPage, Riwayat, ShiftSelect, SubmitButton, barisBaru, barisTerisi, barisValid, inputClass, toNum, usePicShift } from "@/components/form-kit";
 
 export const Route = createFileRoute("/_authenticated/packing")({
   head: () => ({
@@ -27,6 +27,7 @@ function Page() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!barisValid(rows)) { toast.error("Isi wajib berupa angka nol atau lebih."); return; }
     setLoading(true);
     const { error } = await supabase.from("packing").insert(
       isi.map((r) => ({ no_rak: noRak.trim(), pic: pic.trim(), shift, barcode: r.barcode.trim(), description: r.description, thickness: r.thickness, isi: toNum(r.isi) })),
@@ -46,7 +47,7 @@ function Page() {
         <Field label="PIC"><input required value={pic} onChange={(e) => setPic(e.target.value)} className={inputClass} /></Field>
         <Field label="Shift"><ShiftSelect value={shift} onChange={setShift} /></Field>
         <BarcodeList rows={rows} setRows={setRows} />
-        <SubmitButton loading={loading} disabled={!isi.length} />
+        <SubmitButton loading={loading} disabled={!barisValid(rows)} />
       </form>
       <Riwayat table="packing" cols={[{ key: "no_rak", label: "No Rak" }, { key: "barcode", label: "Barcode" }, { key: "description", label: "Description" }, { key: "isi", label: "Isi" }, { key: "pic", label: "PIC" }, { key: "shift", label: "Shift" }]} />
     </FormPage>

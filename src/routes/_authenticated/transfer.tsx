@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { BarcodeList, Field, FormPage, Riwayat, SelectInput, ShiftSelect, SubmitButton, barisBaru, barisTerisi, inputClass, toNum, usePicShift } from "@/components/form-kit";
+import { BarcodeList, Field, FormPage, Riwayat, SelectInput, ShiftSelect, SubmitButton, barisBaru, barisTerisi, barisValid, inputClass, toNum, usePicShift } from "@/components/form-kit";
 import { GUDANG } from "@/lib/nav";
 
 export const Route = createFileRoute("/_authenticated/transfer")({
@@ -36,7 +36,7 @@ function Page() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (sjKosong) return;
+    if (sjKosong || !barisValid(rows)) { if (!sjKosong) toast.error("Isi wajib berupa angka nol atau lebih."); return; }
     setLoading(true);
     const { error } = await supabase.from("transfer").insert(
       isi.map((r) => ({ jenis, kontainer: kontainer.trim(), tujuan: tujuan.trim(), warehouse, no_surat_jalan: sj.trim(), shift, pic: pic.trim(), barcode: r.barcode.trim(), description: r.description, thickness: r.thickness, isi: toNum(r.isi) })),
@@ -61,7 +61,7 @@ function Page() {
         <Field label="PIC"><input required value={pic} onChange={(e) => setPic(e.target.value)} className={inputClass} /></Field>
         <Field label="Shift"><ShiftSelect value={shift} onChange={setShift} /></Field>
         <BarcodeList rows={rows} setRows={setRows} />
-        <SubmitButton loading={loading} disabled={sjKosong || !isi.length} />
+        <SubmitButton loading={loading} disabled={sjKosong || !barisValid(rows)} />
       </form>
       <Riwayat table="transfer" cols={[{ key: "jenis", label: "Jenis" }, { key: "kontainer", label: "Kontainer" }, { key: "warehouse", label: "Warehouse" }, { key: "no_surat_jalan", label: "Surat Jalan" }, { key: "barcode", label: "Barcode" }, { key: "isi", label: "Isi" }]} />
     </FormPage>
