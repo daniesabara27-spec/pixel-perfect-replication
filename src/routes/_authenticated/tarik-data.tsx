@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Download } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Field, FormPage, ShiftSelect, SubmitButton, inputClass, usePicShift } from "@/components/form-kit";
+import { Field, FormPage, ShiftSelect, inputClass, usePicShift } from "@/components/form-kit";
 import { AlatEditor, TombolPdf, alatAwal } from "@/components/laporan-kit";
 import { hariIni, pdfLaporanShift, simpanPdf, type Alat } from "@/lib/laporan-pdf";
 import { GUDANG } from "@/lib/nav";
@@ -61,7 +61,7 @@ function Page() {
   const semuaGudang = gudang.length === GUDANG.length;
 
   async function tarik() {
-    if (!kat.length || !gudang.length) return toast.error("Pilih minimal satu kategori dan satu gudang.");
+    if (!kat.length || !gudang.length) { toast.error("Pilih minimal satu kategori dan satu gudang."); return; }
     setLoading(true); setPdf(null);
     try {
       let rakSet: Set<string> | null = null;
@@ -160,7 +160,7 @@ function Page() {
               <>
                 <Field label="PIC"><input value={pic} onChange={(e) => setPic(e.target.value)} className={inputClass} /></Field>
                 <AlatEditor alat={alat} setAlat={setAlat} />
-                <SubmitButton loading={saving}><span onClick={buatLaporan}>Simpan & Buat PDF</span></SubmitButton>
+                <button type="button" onClick={buatLaporan} disabled={saving} className="btn-gradient flex min-h-12 items-center justify-center rounded-full text-base font-bold disabled:opacity-50">{saving ? "Menyimpan…" : "Simpan & Buat PDF"}</button>
                 {pdf ? <TombolPdf path={pdf.path} nama={pdf.nama} /> : null}
               </>
             ) : null}
