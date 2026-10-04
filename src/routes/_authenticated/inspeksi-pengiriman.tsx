@@ -28,7 +28,7 @@ const CEK = [
   { key: "stopper_steelband", label: "Stopper & Steelband" },
 ] as const;
 type CekKey = (typeof CEK)[number]["key"];
-type Baris = { key: number; barcode: string; description: string; status?: "cari" | "tidak" | "ok"; cek: Record<CekKey, boolean> };
+type Baris = { key: number; barcode: string; description: string; status?: "cari" | "tidak" | "ok" | undefined; cek: Record<CekKey, boolean> };
 
 let seq = 1;
 const baru = (): Baris => ({ key: seq++, barcode: "", description: "", cek: Object.fromEntries(CEK.map((c) => [c.key, false])) as Record<CekKey, boolean> });
