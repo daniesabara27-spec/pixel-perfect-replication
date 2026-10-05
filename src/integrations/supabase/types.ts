@@ -439,6 +439,27 @@ export type Database = {
         }
         Relationships: []
       }
+      pilihan: {
+        Row: {
+          id: number
+          jenis: string
+          nilai: string
+          urutan: number
+        }
+        Insert: {
+          id?: never
+          jenis: string
+          nilai: string
+          urutan?: number
+        }
+        Update: {
+          id?: never
+          jenis?: string
+          nilai?: string
+          urutan?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
