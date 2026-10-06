@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useProfile, shiftSekarang } from "@/hooks/use-profile";
 import { cn } from "@/lib/utils";
+import { exportExcel } from "@/lib/excel";
 
 export const inputClass =
   "h-12 w-full rounded-2xl border border-white/70 bg-white/65 px-4 text-base text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/30 disabled:opacity-70";
@@ -182,7 +183,14 @@ export function Riwayat({ table, cols }: { table: "packing" | "inbound" | "outbo
   const fmt = useMemo(() => new Intl.DateTimeFormat("id-ID", { dateStyle: "short", timeStyle: "short", timeZone: "Asia/Jakarta" }), []);
   return (
     <section className="glass mt-6 p-4 sm:p-5">
-      <h2 className="mb-3 text-lg font-bold">Riwayat 20 entri terakhir</h2>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-lg font-bold">Riwayat 20 entri terakhir</h2>
+        <button type="button" onClick={async () => {
+          const { data, error } = await supabase.from(table).select("*").order("created_at", { ascending: false }).limit(10000);
+          if (error) { toast.error(error.message); return; }
+          exportExcel(data as Record<string, unknown>[], `riwayat-${table}`);
+        }} className="glass min-h-11 rounded-full px-4 text-sm font-semibold text-primary">Export Excel</button>
+      </div>
       {q.isLoading ? <p className="text-sm text-muted-foreground">Memuat…</p> : q.error ? <p className="text-sm text-destructive">Riwayat gagal dimuat. Coba muat ulang halaman.</p> : !q.data?.length ? <p className="text-sm text-muted-foreground">Belum ada data.</p> : (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[560px] text-left text-sm">

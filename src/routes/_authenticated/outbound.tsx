@@ -1,3 +1,4 @@
+import { usePilihan } from "@/hooks/use-pilihan";
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -26,6 +27,7 @@ function Page() {
   const [tujuan, setTujuan] = useState<string>(TUJUAN[0]);
   const [sj, setSj] = useState("");
   const [team, setTeam] = useState("");
+  const teams = usePilihan("team");
   const [rows, setRows] = useState([barisBaru()]);
   const [loading, setLoading] = useState(false);
   const isi = barisTerisi(rows);
@@ -55,7 +57,7 @@ function Page() {
         </Field>
         <Field label="PIC"><input required value={pic} onChange={(e) => setPic(e.target.value)} className={inputClass} /></Field>
         <Field label="Shift"><ShiftSelect value={shift} onChange={setShift} /></Field>
-        <Field label="Team"><input value={team} onChange={(e) => setTeam(e.target.value)} className={inputClass} /></Field>
+        <Field label="Team"><input list="daftar-team" value={team} onChange={(e) => setTeam(e.target.value)} className={inputClass} /><datalist id="daftar-team">{teams.map((t) => <option key={t} value={t} />)}</datalist></Field>
         <BarcodeList rows={rows} setRows={setRows} />
         <SubmitButton loading={loading} disabled={sjKosong || !barisValid(rows)} />
       </form>
