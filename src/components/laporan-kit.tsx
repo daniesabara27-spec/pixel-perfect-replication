@@ -4,9 +4,10 @@ import { Download, Eye, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { inputClass } from "@/components/form-kit";
+import { exportExcel } from "@/lib/excel";
 import { bukaFile, type Alat } from "@/lib/laporan-pdf";
 
-export const alatAwal = (): Alat[] => ["Tensioner", "Sealer", "PDA"].map((nama) => ({ nama, jumlah: "", kondisi: "Baik", keterangan: "" }));
+export const alatAwal = (nama: string[] = ["Tensioner", "Sealer", "PDA"]): Alat[] => nama.map((nama) => ({ nama, jumlah: "", kondisi: "Baik", keterangan: "" }));
 
 export function AlatEditor({ alat, setAlat }: { alat: Alat[]; setAlat: (a: Alat[]) => void }) {
   const upd = (i: number, p: Partial<Alat>) => setAlat(alat.map((a, j) => (j === i ? { ...a, ...p } : a)));
@@ -15,13 +16,13 @@ export function AlatEditor({ alat, setAlat }: { alat: Alat[]; setAlat: (a: Alat[
       <span className="text-sm font-bold text-primary">ALAT</span>
       {alat.map((a, i) => (
         <div key={i} className="glass grid grid-cols-2 gap-2 p-3 sm:grid-cols-[1.3fr_80px_110px_1.5fr_auto]">
-          <input value={a.nama} readOnly={i < 3} onChange={(e) => upd(i, { nama: e.target.value })} placeholder="Nama alat" className={inputClass + (i < 3 ? " font-semibold" : "")} />
+          <input value={a.nama} onChange={(e) => upd(i, { nama: e.target.value })} placeholder="Nama alat" className={inputClass + " font-semibold"} />
           <input value={a.jumlah} type="number" min="0" inputMode="numeric" onChange={(e) => upd(i, { jumlah: e.target.value })} placeholder="Jumlah" className={inputClass} />
           <select value={a.kondisi} onChange={(e) => upd(i, { kondisi: e.target.value })} className={inputClass}>
             <option>Baik</option><option>Rusak</option><option>Hilang</option>
           </select>
           <input value={a.keterangan} onChange={(e) => upd(i, { keterangan: e.target.value })} placeholder="Keterangan" className={inputClass} />
-          {i >= 3 ? (
+          {true ? (
             <button type="button" aria-label="Hapus alat" onClick={() => setAlat(alat.filter((_, j) => j !== i))} className="grid size-12 place-items-center rounded-full text-destructive hover:bg-white/60"><Trash2 className="size-5" /></button>
           ) : <span className="hidden sm:block" />}
         </div>
@@ -55,7 +56,10 @@ export function RiwayatLaporan({ table, judul }: { table: "laporan_shift" | "nea
   });
   return (
     <section className="glass mt-6 p-4 sm:p-5">
-      <h2 className="mb-3 text-lg font-bold">{judul}</h2>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-lg font-bold">{judul}</h2>
+        <button type="button" disabled={!q.data?.length} onClick={() => exportExcel((q.data ?? []).map(({ id, tanggal, shift, pic }) => ({ id, tanggal, shift, pic })), table)} className="glass min-h-11 rounded-full px-4 text-sm font-semibold text-primary disabled:opacity-50">Export Excel</button>
+      </div>
       {q.isLoading ? <p className="text-sm text-muted-foreground">Memuat…</p> : q.error ? <p className="text-sm text-destructive">Riwayat gagal dimuat.</p> : !q.data?.length ? <p className="text-sm text-muted-foreground">Belum ada laporan.</p> : (
         <ul className="flex flex-col gap-2">
           {q.data.map((r) => (

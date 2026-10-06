@@ -1,3 +1,4 @@
+import { usePilihan } from "@/hooks/use-pilihan";
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,7 +21,6 @@ export const Route = createFileRoute("/_authenticated/inbound")({
 });
 
 const TAB = ["Dari KCC", "Dari Wanxinda"] as const;
-const PENEMPATAN = ["KCC", "WANXINDA 1", "WANXINDA 2", "WANXINDA 3", "WANXINDA TEMP"] as const;
 
 type ItemTransfer = { id: number; barcode: string | null; description: string | null; thickness: string | null; isi: number | null; sudah: boolean };
 
@@ -31,7 +31,8 @@ function Page() {
   const [mode, setMode] = useState<"manual" | "transfer">("manual");
   const [noRak, setNoRak] = useState("");
   const [sj, setSj] = useState("");
-  const [penempatan, setPenempatan] = useState<string>(PENEMPATAN[0]);
+  const PENEMPATAN = usePilihan("penempatan");
+  const [penempatan, setPenempatan] = useState<string>("KCC");
   const [rows, setRows] = useState([barisBaru()]);
   const [items, setItems] = useState<ItemTransfer[] | null>(null);
   const [pilih, setPilih] = useState<Set<number>>(new Set());

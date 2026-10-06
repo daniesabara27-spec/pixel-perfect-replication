@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from "react";
+import { usePilihan } from "@/hooks/use-pilihan";
+import { useEffect, useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Plus, Trash2 } from "lucide-react";
@@ -56,7 +57,10 @@ function Page() {
   const [inbound, setInbound] = useState<Baris[]>([kosong()]);
   const [outbound, setOutbound] = useState<Baris[]>([kosong("KOREA")]);
   const [tab, setTab] = useState<string>("KOREA");
-  const [alat, setAlat] = useState<Alat[]>(alatAwal);
+  const alatDefault = usePilihan("alat");
+  const [alat, setAlat] = useState<Alat[]>(() => alatAwal());
+  const alatKey = alatDefault.join("|");
+  useEffect(() => { setAlat((a) => (a.every((x) => !x.jumlah && !x.keterangan) ? alatAwal(alatDefault) : a)); }, [alatKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const [loading, setLoading] = useState(false);
   const [hasil, setHasil] = useState<{ path: string; nama: string } | null>(null);
 
@@ -77,7 +81,7 @@ function Page() {
       if (error) throw error;
       toast.success("Laporan tersimpan.");
       setHasil({ path, nama: `laporan-shift-${tanggal}-shift${shift}.pdf` });
-      setInbound([kosong()]); setOutbound([kosong("KOREA")]); setAlat(alatAwal());
+      setInbound([kosong()]); setOutbound([kosong("KOREA")]); setAlat(alatAwal(alatDefault));
       qc.invalidateQueries({ queryKey: ["riwayat-laporan", "laporan_shift"] });
     } catch (err) {
       toast.error("Gagal menyimpan: " + (err as Error).message);

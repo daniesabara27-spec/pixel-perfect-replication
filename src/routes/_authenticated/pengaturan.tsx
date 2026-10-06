@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Upload, Loader2, Plus, Trash2, KeyRound, Download } from "lucide-react";
+import { Upload, Loader2, Plus, Trash2, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,7 +11,6 @@ import { usePilihanRows, type JenisPilihan } from "@/hooks/use-pilihan";
 import { GUDANG } from "@/lib/nav";
 import { inputClass } from "@/components/form-kit";
 import { daftarUser, tambahUser, resetPassword } from "@/lib/users.functions";
-import { exportExcel } from "@/lib/excel";
 
 export const Route = createFileRoute("/_authenticated/pengaturan")({
   head: () => ({
@@ -444,4 +443,3 @@ function FilePick({ id, busy, onFile, label = "Pilih file" }: { id: string; busy
   );
 }
 
-export { Download as _unusedDownload, exportExcel as _unusedExport };

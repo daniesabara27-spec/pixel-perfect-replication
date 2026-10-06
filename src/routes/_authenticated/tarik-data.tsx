@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { usePilihan } from "@/hooks/use-pilihan";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Download } from "lucide-react";
@@ -53,7 +54,10 @@ function Page() {
   const [hasil, setHasil] = useState<Hasil[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [jadikan, setJadikan] = useState(false);
-  const [alat, setAlat] = useState<Alat[]>(alatAwal);
+  const alatDefault = usePilihan("alat");
+  const [alat, setAlat] = useState<Alat[]>(() => alatAwal());
+  const alatKey = alatDefault.join("|");
+  useEffect(() => { setAlat((a) => (a.every((x) => !x.jumlah && !x.keterangan) ? alatAwal(alatDefault) : a)); }, [alatKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const [saving, setSaving] = useState(false);
   const [pdf, setPdf] = useState<{ path: string; nama: string } | null>(null);
 
