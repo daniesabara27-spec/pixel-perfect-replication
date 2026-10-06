@@ -125,7 +125,7 @@ function KelolaUser() {
   async function resetPw(id: string, email: string) {
     const pw = window.prompt(`Password baru untuk ${email} (min. 6 karakter):`);
     if (!pw) return;
-    if (pw.length < 6) return toast.error("Password minimal 6 karakter");
+    if (pw.length < 6) { toast.error("Password minimal 6 karakter"); return; }
     try { await reset({ data: { id, password: pw } }); toast.success("Password direset"); }
     catch (err) { toast.error((err as Error).message); }
   }
@@ -398,7 +398,7 @@ function DaftarPilihan() {
     if (!nilai) return;
     const urutan = (q.data?.filter((r) => r.jenis === jenis).length ?? 0) + 1;
     const { error } = await supabase.from("pilihan").insert({ jenis, nilai, urutan });
-    if (error) return toast.error(error.message.includes("duplicate") ? "Sudah ada" : error.message);
+    if (error) { toast.error(error.message.includes("duplicate") ? "Sudah ada" : error.message); return; }
     setBaru({ ...baru, [jenis]: "" }); refresh();
   }
   async function hapus(id: number) {

@@ -187,7 +187,7 @@ export function Riwayat({ table, cols }: { table: "packing" | "inbound" | "outbo
         <h2 className="text-lg font-bold">Riwayat 20 entri terakhir</h2>
         <button type="button" onClick={async () => {
           const { data, error } = await supabase.from(table).select("*").order("created_at", { ascending: false }).limit(10000);
-          if (error) return toast.error(error.message);
+          if (error) { toast.error(error.message); return; }
           exportExcel(data as Record<string, unknown>[], `riwayat-${table}`);
         }} className="glass min-h-11 rounded-full px-4 text-sm font-semibold text-primary">Export Excel</button>
       </div>
